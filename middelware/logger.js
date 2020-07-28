@@ -12,5 +12,8 @@ module.exports = () => async (ctx, next) => {
   // 输出日志文件
   const fileName = `log_${moment().format("YYYYMMDD")}.txt`;
   const outPath = path.join(__dirname, `../syslogs/${fileName}`); // 文本保存的地址
+  if (!fs.existsSync(path.join(__dirname, "../syslogs"))) {
+    fs.mkdirSync(path.join(__dirname, "../syslogs"));
+  }
   fs.appendFileSync(outPath, `${logout}\n`);
 };
