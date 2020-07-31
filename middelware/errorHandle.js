@@ -3,7 +3,9 @@ const errorHandle = () => async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    ctx.status = err.status || 500;
+    const status = err.status || 500;
+    const message = err.message || "服务器错误";
+    ctx.status = status;
     // let errorMsg = err.message;
     // if (err.errors && typeof err.errors === "object") {
     //   _.mapValues(err.errors, item => {
@@ -12,7 +14,7 @@ const errorHandle = () => async (ctx, next) => {
     //     }
     //   });
     // }
-    ctx.body = { errorMsg: err.message };
+    ctx.body = { status, errorMsg: message };
     ctx.app.emit("error", err, ctx);
   }
 };

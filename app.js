@@ -9,14 +9,14 @@ const { server = {} } = require("./common/sysConfig");
 
 const { port = 3000 } = server;
 const app = new Koa();
+// 异常处理中间件
+app.use(errorHandle());
 // 日志中间件
 app.use(logger());
 // 处理静态文件的中间件
 app.use(staticFiles("/static/", `${__dirname}/static`));
 // POST提交数据中间件用来获取表单数据
 app.use(bodyParser());
-// 错误处理中间件
-app.use(errorHandle());
 // 路由中间件
 app.use(controller());
 // 错误监听
