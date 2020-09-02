@@ -15,15 +15,13 @@ const client = new Client({
   },
 });
 
-const exceteQuery = async (sql, params) => {
+const exceteQuery = async (exceteType = "", sql, params) => {
   const results = await client.query(sql, params);
-  const dataString = JSON.stringify(results);
-  const data = JSON.parse(dataString);
-  return data;
-};
-
-const exceteInsert = async (sql, params) => {
-  const results = await client.query(sql, params);
+  if (exceteType.toUpperCase() === "SELECT") {
+    const dataString = JSON.stringify(results);
+    const data = JSON.parse(dataString);
+    return data;
+  }
   return results.affectedRows || 0;
 };
 
@@ -46,7 +44,6 @@ const stopTransaction = () => client.stopTransaction();
 
 module.exports = {
   exceteQuery,
-  exceteInsert,
   exceteTrans,
   startTransaction,
   executeTransaction,
